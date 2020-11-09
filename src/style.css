@@ -1,0 +1,36 @@
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  border: black;
+}
+.photo-card {
+  display: block;
+  margin: 15px;
+  width: 350px;
+  border: 1px ridge black;
+  box-shadow: 3px 3px 5px grey;
+}
+.photo-card img {
+  width: 100%;
+  height: 200px;
+}
+.material-icons {
+  padding-left: 10px;
+}
+
+.button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button.is-hidden {
+  display: none;
+}
+
+.button > .spinner.is-hidden {
+  display: none;
+}
