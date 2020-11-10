@@ -1,6 +1,10 @@
 import './style.css';
 const searchFormTemplate = require('./templates/search-form-markup_template.hbs');
 const imageCardTemplate = require('./templates/image-card-template.hbs');
+import {
+  noticeModalSpecQuery,
+  noticeModalNothingFound,
+} from './components/notice-modal.js';
 import debounce from 'lodash.debounce';
 import ImageApiService from './apiService.js';
 import LoadMoreBtn from './components/load-more-btn';
@@ -33,7 +37,9 @@ function onSearch(e) {
   // использую "trim()", т.к. бэкенд поддерживает запросы с пробелом
   imageApiService.query = e.target.value.trim();
   if (imageApiService.query === '') {
-    return alert('Please enter something specific for query!');
+    noticeModalSpecQuery();
+    return;
+    // return alert('Please enter something specific for query!');
   }
   loadMoreBtn.show();
   imageApiService.resetPage();
@@ -42,21 +48,34 @@ function onSearch(e) {
 }
 
 // функция обработки данных из API
-function fetchImages() {
+async function fetchImages() {
   loadMoreBtn.disable();
-  imageApiService
-    .fetchImageByName()
-    .then(images => {
-      if (images) {
-        imageGalleryMarkup(images);
-        loadMoreBtn.enable();
-        window.scrollTo({
-          top: imageApiService.page * 10000,
-          behavior: 'smooth',
-        });
-      }
-    })
-    .catch(error => console.log(error));
+  try {
+    const images = await imageApiService.fetchImageByName();
+    if (images) {
+      imageGalleryMarkup(images);
+      loadMoreBtn.enable();
+      window.scrollTo({
+        top: imageApiService.page * 10000,
+        behavior: 'smooth',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  // imageApiService
+  // .fetchImageByName()
+  // .then(images => {
+  //   if (images) {
+  //     imageGalleryMarkup(images);
+  //     loadMoreBtn.enable();
+  //     window.scrollTo({
+  //       top: imageApiService.page * 10000,
+  //       behavior: 'smooth',
+  //     });
+  //   }
+  // })
+  // .catch(error => console.log(error));
 }
 
 // функция рендера галлереи

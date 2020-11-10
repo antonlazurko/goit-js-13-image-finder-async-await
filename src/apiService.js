@@ -1,22 +1,37 @@
+import {
+  noticeModalSpecQuery,
+  noticeModalNothingFound,
+} from './components/notice-modal.js';
+
 const API_KEY = '18968535-a98ecca7bd1b0403c78b07ef3';
 export default class ImageApiService {
   constructor() {
     this.searchQuery = '';
     this.page = 1;
   }
-  fetchImageByName() {
+  async fetchImageByName() {
     const url = `https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${API_KEY}
 `;
-    return fetch(url)
-      .then(response => response.json())
-      .then(images => {
-        if (images.hits.length) {
-          this.incrementPage();
-          return images;
-        }
-        this.sayNothigFound();
-      });
+    const response = await fetch(url);
+    const images = await response.json();
+    if (images.hits.length) {
+      this.incrementPage();
+      return images;
+    }
+    noticeModalNothingFound();
+
+    // this.sayNothigFound();
   }
+  // return fetch(url)
+  //   .then(response => response.json())
+  //   .then(images => {
+  //     if (images.hits.length) {
+  //       this.incrementPage();
+  //       return images;
+  //     }
+  //     this.sayNothigFound();
+  //   });
+  // }
   incrementPage() {
     this.page += 1;
   }
@@ -33,9 +48,11 @@ export default class ImageApiService {
     this.searchQuery = newQuery;
   }
 
-  sayNothigFound() {
-    return alert(
-      'Oh no! Nothig found! Please enter something specific for query!',
-    );
-  }
+  // sayNothigFound() {
+  //   noticeModalNothingFind();
+  //   return;
+  //   // return alert(
+  //   //   'Oh no! Nothig found! Please enter something specific for query!',
+  //   // );
+  // }
 }
