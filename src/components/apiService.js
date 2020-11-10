@@ -1,7 +1,7 @@
 import {
   noticeModalSpecQuery,
   noticeModalNothingFound,
-} from './components/notice-modal.js';
+} from './notice-modal.js';
 
 const API_KEY = '18968535-a98ecca7bd1b0403c78b07ef3';
 export default class ImageApiService {

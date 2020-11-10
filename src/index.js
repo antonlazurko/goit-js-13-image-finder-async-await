@@ -6,7 +6,7 @@ import {
   noticeModalNothingFound,
 } from './components/notice-modal.js';
 import debounce from 'lodash.debounce';
-import ImageApiService from './apiService.js';
+import ImageApiService from './components/apiService.js';
 import LoadMoreBtn from './components/load-more-btn';
 import * as basicLightbox from 'basiclightbox';
 import 'basiclightbox/dist/basicLightbox.min.css';
